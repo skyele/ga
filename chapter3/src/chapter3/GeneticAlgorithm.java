@@ -1,3 +1,5 @@
+package chapter3;
+
 public class GeneticAlgorithm {
     private int populationSize;
     private double mutationRate;

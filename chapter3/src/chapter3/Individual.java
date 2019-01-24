@@ -1,3 +1,5 @@
+package chapter3;
+
 public class Individual {
     private int[] chromosome;
     private double fitness = -1;

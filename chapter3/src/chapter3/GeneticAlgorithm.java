@@ -39,14 +39,8 @@ public class GeneticAlgorithm {
         population.setPopulationFitness(populationFitness);
     }
 
-    public boolean isTerminationConditionMet(Population population){
-        for(Individual individual : population.getIndividuals()){
-            if(individual.getFitness() == 1){
-                return true;
-            }
-        }
-
-        return false;
+    public boolean isTerminationConditionMet(int generationsCount, int maxGenerations){
+        return (generationsCount > maxGenerations);
     }
 
     public Individual selectParent(Population population){

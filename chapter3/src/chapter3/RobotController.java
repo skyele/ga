@@ -27,14 +27,16 @@ public class RobotController {
 
         ga.evalPopulation(population, maze);
         int generation = 1;
-        while(true/*TODO*/){
-            //TODO: print fittest individual
+        while(ga.isTerminationConditionMet(generation, maxGenetations) == false){
+            Individual fittest = population.getFittest(0);
+            System.out.println("G" + generation + "Best solution (" + fittest.getFitness() + "): " + fittest.toString());
             //TODO: apply crossover
             //TODO: apply mutation
             ga.evalPopulation(population, maze);
             generation++;
         }
-        //TODO: print result
-
+        System.out.println("Stopped after " + maxGenetations + "generations.");
+        Individual fittest = population.getFittest(0);
+        System.out.println("G" + generation + "Best solution (" + fittest.getFitness() + "): " + fittest.toString());
     }
 }

@@ -110,7 +110,35 @@ public class Robot {
                 }
             }
         }
-        else if(this.getNextAction() == 2)
+        else if(this.getNextAction() == 2){
+            if(Direction.NORTH == this.heading){
+                this.heading = Direction.EAST;
+            }
+            else if (Direction.EAST == this.heading){
+                this.heading = Direction.SOUTH;
+            }
+            else if(Direction.SOUTH == this.heading){
+                this.heading = Direction.WEST;
+            }
+            else if(Direction.WEST == this.heading){
+                this.heading = Direction.NORTH;
+            }
+        }
+        else if(this.getNextAction() == 3){
+            if(Direction.NORTH == this.heading){
+                this.heading = Direction.WEST;
+            }
+            else if(Direction.EAST == this.heading){
+                this.heading = Direction.NORTH;
+            }
+            else if(Direction.SOUTH == this.heading){
+                this.heading = Direction.EAST;
+            }
+            else if(Direction.WEST == this.heading){
+                this.heading = Direction.SOUTH;
+            }
+        }
+        this.sensorVal = -1;
     }
 
     public int getNextAction(){
@@ -126,8 +154,58 @@ public class Robot {
         frontSensor = frontLeftSensor = frontRightSensor =
                 leftSensor = rightSensor = backSensor = false;
         if(this.getHeading() == Direction.NORTH){
-
+            frontSensor = this.maze.isWall(this.xPosition, this.yPosition-1);
+            frontLeftSensor = this.maze.isWall(this.xPosition-1,this.yPosition-1);
+            frontRightSensor = this.maze.isWall(this.xPosition+1,this.yPosition-1);
+            leftSensor = this.maze.isWall(this.xPosition-1,this.yPosition);
+            rightSensor = this.maze.isWall(this.xPosition+1,this.yPosition);
+            backSensor = this.maze.isWall(this.xPosition,this.yPosition+1);
         }
+        else if(this.getHeading() == Direction.EAST){
+            frontSensor = this.maze.isWall(this.xPosition+1,this.yPosition);
+            frontLeftSensor = this.maze.isWall(this.xPosition+1,this.yPosition-1);
+            frontRightSensor = this.maze.isWall(this.xPosition+1,this.yPosition+1);
+            leftSensor = this.maze.isWall(this.xPosition,this.yPosition-1);
+            rightSensor = this.maze.isWall(this.xPosition, this.yPosition+1);
+            backSensor = this.maze.isWall(this.xPosition-1,this.yPosition);
+        }
+        else if(this.getHeading() == Direction.SOUTH){
+            frontSensor = this.maze.isWall(this.xPosition,this.yPosition+1);
+            frontLeftSensor = this.maze.isWall(this.xPosition+1,this.yPosition+1);
+            frontRightSensor = this.maze.isWall(this.xPosition-1,this.yPosition+1);
+            leftSensor = this.maze.isWall(this.xPosition+1,this.yPosition);
+            rightSensor = this.maze.isWall(this.xPosition-1,this.yPosition);
+            backSensor = this.maze.isWall(this.xPosition,this.yPosition-1);
+        }
+        else{
+            frontSensor = this.maze.isWall(this.xPosition-1,this.yPosition);
+            frontLeftSensor = this.maze.isWall(this.xPosition-1,this.yPosition+1);
+            frontRightSensor = this.maze.isWall(this.xPosition-1,this.yPosition-1);
+            leftSensor = this.maze.isWall(this.xPosition,this.yPosition+1);
+            rightSensor = this.maze.isWall(this.xPosition,this.yPosition-1);
+            backSensor = this.maze.isWall(this.xPosition+1,this.yPosition);
+        }
+        int sensorVal = 0;
+        if(frontSensor == true){
+            sensorVal += 1;
+        }
+        if(frontLeftSensor == true){
+            sensorVal += 2;
+        }
+        if(frontRightSensor == true){
+            sensorVal += 4;
+        }
+        if(leftSensor == true){
+            sensorVal += 8;
+        }
+        if(rightSensor == true){
+            sensorVal += 16;
+        }
+        if(backSensor == true){
+            sensorVal += 32;
+        }
+        this.sensorVal = sensorVal;
+        return sensorVal;
     }
 
     public int[] getPosition(){

@@ -44,19 +44,13 @@ public class GeneticAlgorithm {
     }
 
     public Individual selectParent(Population population){
-        Individual individuals[] = population.getIndividuals();
-
-        double populationFitness = population.getPopulationFitness();
-        double rouletteWheelPosition = Math.random()*populationFitness;
-
-        double spinWheel = 0;
-        for(Individual individual : individuals){
-            spinWheel += individual.getFitness();
-            if(spinWheel >= rouletteWheelPosition){
-                return individual;
-            }
+        Population tournament = new Population(this.tournamentSize);
+        population.shuffle();
+        for(int i = 0; i < this.tournamentSize; i++){
+            Individual tournamentIndividual = population.getIndividual(i);
+            tournament.setIndividual(i, tournamentIndividual);
         }
-        return individuals[population.size() - 1];
+        return tournament.getFittest(0);
     }
 
     public Population crossoverPopulation(Population population){

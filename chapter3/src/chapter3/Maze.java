@@ -51,7 +51,7 @@ public class Maze {
         boolean visited[][] = new boolean[this.getMaxY()+1][this.getMaxX()+1];
         for(Object routeStep : route){
             int step[] = (int[]) routeStep;
-            if(this.maze[step[1]][step[2]] == 3 && visited[step[1]][step[2]] == false){
+            if(this.maze[step[1]][step[0]] == 3 && visited[step[1]][step[0]] == false){
                 score++;
                 visited[step[1]][step[0]] = true;
             }

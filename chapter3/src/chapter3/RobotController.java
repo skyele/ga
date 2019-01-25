@@ -30,7 +30,7 @@ public class RobotController {
         while(ga.isTerminationConditionMet(generation, maxGenetations) == false){
             Individual fittest = population.getFittest(0);
             System.out.println("G" + generation + "Best solution (" + fittest.getFitness() + "): " + fittest.toString());
-            //TODO: apply crossover
+            population = ga.crossoverPopulation(population);
             population = ga.mutatePopulation(population);
             ga.evalPopulation(population, maze);
             generation++;

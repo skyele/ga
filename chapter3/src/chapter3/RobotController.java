@@ -25,10 +25,16 @@ public class RobotController {
         GeneticAlgorithm ga = new GeneticAlgorithm(200, 0.05, 0.9, 2, 10);
         Population population = ga.initPopulation(128);
 
+        ga.evalPopulation(population, maze);
         int generation = 1;
-        while(true){
+        while(true/*TODO*/){
+            //TODO: print fittest individual
+            //TODO: apply crossover
+            //TODO: apply mutation
+            ga.evalPopulation(population, maze);
             generation++;
         }
+        //TODO: print result
 
     }
 }

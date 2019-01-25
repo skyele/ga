@@ -21,23 +21,20 @@ public class GeneticAlgorithm {
         return population;
     }
 
-    public double calcFitness(Individual individual){
-        int correctGenes = 0;
-        for(int geneIndex = 0;geneIndex < individual.getChromosomeLength();geneIndex++){
-            if(individual.getGene(geneIndex) == 1){
-                correctGenes += 1;
-            }
-        }
-        double fitness = (double) correctGenes / individual.getChromosomeLength();
+    public double calcFitness(Individual individual, Maze maze){
+        int[] chromosome = individual.getChromosome();
+        Robot robot = new Robot(chromosome, maze, 100);
+        robot.run();
+        int fitness = maze.scoreRoute(robot.getRoute());
         individual.setFitness(fitness);
-
         return fitness;
     }
 
-    public void evalPopulation(Population population){
+    public void evalPopulation(Population population, Maze maze){
         double populationFitness = 0;
+
         for(Individual individual : population.getIndividuals()){
-            populationFitness += calcFitness(individual);
+            populationFitness += this.calcFitness(individual, maze);
         }
         population.setPopulationFitness(populationFitness);
     }
@@ -52,7 +49,7 @@ public class GeneticAlgorithm {
         return false;
     }
 
-    public Individual selecftParent(Population population){
+    public Individual selectParent(Population population){
         Individual individuals[] = population.getIndividuals();
 
         double populationFitness = population.getPopulationFitness();
@@ -77,7 +74,7 @@ public class GeneticAlgorithm {
             if(this.crossoverRate > Math.random() && populationIndex > this.elitismCount){
                 Individual offspring = new Individual(parent1.getChromosomeLength());
 
-                Individual parent2 = selecftParent(population);
+                Individual parent2 = selectParent(population);
                 for(int geneIndex = 0; geneIndex < parent1.getChromosomeLength();geneIndex++){
                     if(0.5 > Math.random()){
                         offspring.setGene(geneIndex,parent1.getGene(geneIndex));

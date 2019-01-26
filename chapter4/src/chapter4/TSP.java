@@ -12,16 +12,19 @@ public class TSP {
         }
         GeneticAlgorithm ga = new GeneticAlgorithm(100, 0.001,0.9,2,5);
         Population population = ga.initPopulation(cities.length);
-        //TODO: evaluate population
+        ga.evalPopulation(population, cities);
         int generation = 1;
         while(ga.isTerminationConditionMet(generation, maxGenerations) == false){
-            //TODO: print fittest individual from population
-            //TODO: apply crossover
+            Route route = new Route(population.getFittest(0),cities);
+            System.out.println("G" + generation + " Best distance " + route.getDistance());
+            population = ga.crossoverPopulation(population);
             //TODO: apply mutation
-            //TODO: evaluate population
+            ga.evalPopulation(population, cities);
             generation++;
         }
-        //TODO: display result;
+        System.out.println("Stopped after " + maxGenerations + "generations.");
+        Route route = new Route(population.getFittest(0), cities);
+        System.out.println("G" + generation + " Best distance " + route.getDistance());
     }
 
 }

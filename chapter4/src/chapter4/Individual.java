@@ -18,7 +18,7 @@ public class Individual {
         this.chromosome = individual;
     }
 
-    public int[] getChromosome() {
+    public int[]  getChromosome() {
         return this.chromosome;
     }
 
@@ -48,5 +48,14 @@ public class Individual {
             output += this.chromosome[gene];
         }
         return output;
+    }
+
+    public boolean containsGene(int gene){
+        for(int i = 0; i < this.chromosome.length; i++){
+            if(this.chromosome[i] == gene){
+                return true;
+            }
+        }
+        return false;
     }
 }

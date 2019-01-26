@@ -18,7 +18,7 @@ public class TSP {
             Route route = new Route(population.getFittest(0),cities);
             System.out.println("G" + generation + " Best distance " + route.getDistance());
             population = ga.crossoverPopulation(population);
-            //TODO: apply mutation
+            population = ga.mutatePopulation(population);
             ga.evalPopulation(population, cities);
             generation++;
         }

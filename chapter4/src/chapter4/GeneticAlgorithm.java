@@ -1,5 +1,7 @@
 package chapter4;
 
+import java.util.Currency;
+
 public class GeneticAlgorithm {
     private int populationSize;
     private double mutationRate;
@@ -35,4 +37,10 @@ public class GeneticAlgorithm {
         return tournament.getFittest(0);
     }
 
+    public double calFitness(Individual individual, City cities[]){
+        Route route = new Route(individual, cities);
+        double fitness = 1 / route.getDistance();
+        individual.setFitness(fitness);
+        return fitness;
+    }
 }

@@ -8,6 +8,16 @@ public class Individual {
         this.chromosome = chromosome;
     }
 
+    public Individual(int chromosomeLength){
+        int[] individual;
+        individual = new int[chromosomeLength];
+
+        for(int gene = 0; gene < chromosomeLength; gene++){
+            individual[gene] = gene;
+        }
+        this.chromosome = individual;
+    }
+
     public int[] getChromosome() {
         return this.chromosome;
     }

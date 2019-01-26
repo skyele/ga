@@ -1,8 +1,6 @@
 package chapter4;
 
-import java.lang.reflect.Array;
 import java.util.Arrays;
-import java.util.Currency;
 
 public class GeneticAlgorithm {
     private int populationSize;

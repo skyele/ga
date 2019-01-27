@@ -1,8 +1,29 @@
 package chapter5;
 
+import java.lang.reflect.Array;
+import java.util.Arrays;
+
 public class Individual {
     private int[] chromosome;
     private double fitness = -1;
+
+    @Override
+    public int hashCode(){
+        int hash = Arrays.hashCode(this.chromosome);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj){
+        if(obj == null){
+            return false;
+        }
+        if(getClass() != obj.getClass()){
+            return false;
+        }
+        Individual individual = (Individual) obj;
+        return Arrays.equals(this.chromosome, individual.chromosome);
+    }
 
     public Individual(int[] chromosome) {
         this.chromosome = chromosome;

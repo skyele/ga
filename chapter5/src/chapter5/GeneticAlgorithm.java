@@ -1,7 +1,8 @@
 package chapter5;
 
 import java.sql.Time;
-import java.util.Arrays;
+import java.util.*;
+import java.util.stream.IntStream;
 
 public class GeneticAlgorithm {
     private int populationSize;
@@ -9,6 +10,16 @@ public class GeneticAlgorithm {
     private double crossoverRate;
     private int elitismCount;
     protected int tournamentSize;
+
+    private Map<Individual, Double> fitnessHash = Collections
+            .synchronizedMap(
+                    new LinkedHashMap<Individual, Double>(){
+                        @Override
+                        protected boolean removeEldestEntry(Map.Entry<Individual, Double> eldest) {
+                            return this.size() > 1000;
+                        }
+                    });
+
 
     public GeneticAlgorithm(int populationSize, double mutationRate, double crossoverRate, int elitismCount, int tournamentSize){
         this.populationSize = populationSize;
@@ -68,16 +79,25 @@ public class GeneticAlgorithm {
     }
 
     public double calcFitness(Individual individual, Timetable timetable){
+        Double storedFitness = this.fitnessHash.get(individual);
+        if(storedFitness != null){
+            return storedFitness;
+        }
+
         Timetable threadTimetable = new Timetable(timetable);
         threadTimetable.createClasses(individual);
 
         int clashes = threadTimetable.calcClashes();
         double fitness = 1 / (double)(clashes + 1);
         individual.setFitness(fitness);
+        this.fitnessHash.put(individual, fitness);
         return fitness;
     }
 
     public void evalPopulation(Population population, Timetable timetable){
+        IntStream.range(0, population.size()).parallel()
+                .forEach(i -> this.calcFitness(population.getIndividual(i), timetable));
+
         double populationFitness = 0;
 
         for(Individual individual : population.getIndividuals()){

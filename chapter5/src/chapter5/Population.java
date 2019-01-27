@@ -21,6 +21,15 @@ public class Population {
         }
     }
 
+    public Population(int populationSize, Timetable timetable){
+        this.population = new Individual[populationSize];
+
+        for(int individualCount = 0; individualCount < populationSize; individualCount++){
+            Individual individual = new Individual(timetable);
+            this.population[individualCount] = individual;
+        }
+    }
+
     public Individual[] getIndividuals(){
         return this.population;
     }

@@ -2,22 +2,38 @@ package chapter5;
 
 public class TimetableGA {
     public static void main(String[] args){
-        //TODO: create timetable and initialize with all the available courses, rooms, timeslots, professors, modules, and groups
+        Timetable timetable = initializeTimetable();
         GeneticAlgorithm ga = new GeneticAlgorithm(100, 0.01, 0.9, 2, 5);
-        //TODO: initialize population
-        //TODO: evaluate population
-
+        Population population = ga.initPopulation(timetable);
+        ga.evalPopulation(population, timetable);
         int generation = 1;
-        //TODO: add termination condition
-        while (true){
-            //System.out.println("G" + generation + " Best fitness: " + population.);
-            //TODO: apply crossover
-            //TODO: apply mutation
-            //TODO: evaluate population
+        while (ga.isTerminationConditionMet(generation, 1000) == false
+                && ga.isTerminationConditionMet(population) == false){
+            System.out.println("G" + generation + " Best fitness: " + population.getFittest(0).getFitness());
+            population = ga.crossoverPopulation(population);
+            population = ga.mutatePopulation(population, timetable);
+            ga.evalPopulation(population, timetable);
             generation++;
         }
-        //TODO: print final fitness
-        //TODO: print final timetable
+        timetable.createClasses(population.getFittest(0));
+        System.out.println();
+        System.out.println("Solution found in " + generation + " generations");
+        System.out.println("Final solution fitness: " + population.getFittest(0).getFitness());
+        System.out.println("Clashes: " + timetable.calcClashes());
+
+        System.out.println();
+        Class classes[] = timetable.getClasses();
+        int classIndex = 1;
+        for(Class bestClass : classes){
+            System.out.println("Class " + classIndex + ":");
+            System.out.println("Module: " + timetable.getModule(bestClass.getModuleId()).getModuleName());
+            System.out.println("Group: " + timetable.getGroup(bestClass.getModuleId()).getGroupId());
+            System.out.println("Room: " + timetable.getRoom(bestClass.getRoomId()).getRoomNumber());
+            System.out.println("Professor: " + timetable.getProfessor(bestClass.getProfessorId()).getProfessorName());
+            System.out.println("Time: " + timetable.getTimeslot(bestClass.getTimeslotId()).getTimeslot());
+            System.out.println("- - - - -");
+            classIndex++;
+        }
     }
 
     private static Timetable initializeTimetable(){
@@ -66,7 +82,7 @@ public class TimetableGA {
         timetable.addGroup(8, 18, new int[]{2, 6});
         timetable.addGroup(9, 24, new int[]{1, 6});
         timetable.addGroup(10, 25, new int[]{3 ,4});
-        
+
         return timetable;
     }
 }

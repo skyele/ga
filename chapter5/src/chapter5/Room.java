@@ -11,11 +11,11 @@ public class Room {
     }
 
     public int getRoomId(){
-        return roomId;
+        return this.roomId;
     }
 
     public String getRoomNumber(){
-        return roomNumber;
+        return this.roomNumber;
     }
 
     public int getRoomCapacity(){

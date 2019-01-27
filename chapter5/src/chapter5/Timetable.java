@@ -29,9 +29,9 @@ public class Timetable {
         this.timeslots = cloneable.getTimeslots();
     }
 
-    private HashMap<Integer, Room> getRooms(){
-        return this.rooms;
-    }
+//    private HashMap<Integer, Room> getRooms(){
+//        return this.rooms;
+//    }
 
     private HashMap<Integer, Group> getGroups(){
         return this.groups;
@@ -101,6 +101,10 @@ public class Timetable {
             System.out.println("Rooms doesn't contain key " + roomId);
         }
         return (Room)this.rooms.get(roomId);
+    }
+
+    private HashMap<Integer, Room> getRooms(){
+        return this.rooms;
     }
 
     public Room getRandomRoom(){
